@@ -11,6 +11,8 @@
 
 #include <algorithm>
 
+#include "essentials/conversion.hpp"
+
 #include "grammar.hpp"
 #include "genesis_exception.hpp"
 
@@ -25,10 +27,9 @@ namespace genesis
 		
 condition_modifier get_condition_modifier_from_string( const std::string& _condition_modifier )
 {			
-	std::string condition_modifier_caps = _condition_modifier;
-	std::transform( condition_modifier_caps.begin(), condition_modifier_caps.end(), condition_modifier_caps.begin(), ::toupper );
+	const std::string condition_modifier_caps = sxe::to_upper( _condition_modifier );
 
-	condition_modifier modifier = condition_modifier::NONE;
+	condition_modifier modifier( condition_modifier::NONE );
 	if( condition_modifier_caps == condition_modifier_NOT )
 	{
 		modifier = condition_modifier::NOT;

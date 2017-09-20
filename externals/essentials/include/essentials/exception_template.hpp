@@ -14,9 +14,8 @@
 
 #include <exception>
 
-#include "essentials/compatibility/compatibility.hpp"
-#include "essentials/sxprintf.hpp"
-#include "essentials/non_copyable.hpp"
+#include "compatibility/compatibility.hpp"
+#include "sxprintf.hpp"
 
 
 #ifndef SX_CPP03_BOOST
@@ -39,9 +38,6 @@ public: \
 \
 \
 	virtual ~_name () SX_NOEXCEPT SX_OVERRIDE {}\
-\
-\
-	SX_NO_ASSIGNMENT_OPERATOR( _name )\
 \
 \
 	virtual const char* what() const throw () SX_OVERRIDE \
@@ -143,9 +139,6 @@ public: \
 \
 \
 	virtual ~_name () SX_NOEXCEPT SX_OVERRIDE {}\
-\
-\
-	SX_NO_ASSIGNMENT_OPERATOR( _name ) \
 \
 \
 	virtual const char* what() const throw () SX_OVERRIDE \

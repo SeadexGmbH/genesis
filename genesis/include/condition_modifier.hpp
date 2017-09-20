@@ -22,12 +22,68 @@ namespace genesis
 {
 
 
+#ifndef SX_CPP03_BOOST
+
 //!\enum condition_modifier
 //!\brief Modifier for conditions. E.g. negate the result of a check.
 enum class condition_modifier
 {
 	NONE = 0, NOT = 1
 };
+
+
+#else
+
+
+	//!\struct condition_modifier
+	//!\brief Structure representing a predefined modifier for conditions (enum wrapper for C++11 enum class like behavior).
+	struct condition_modifier
+	{
+		//!\enum condition_modifier
+		//!\brief Enumeration for predefined modifier for conditions.
+		enum inner
+		{
+			NONE = 0, NOT = 1
+		};
+
+
+		//!\brief Constructor. Default value is white.
+		condition_modifier() : value_( NONE )
+		{
+			// Nothing to do...
+		}
+
+
+		//!\brief Constructor
+		//!\param _value Given modifier for conditions value that is represented by the structure.
+		condition_modifier( const inner _value ) : value_( _value )
+		{
+			// Nothing to do...
+		}
+
+
+		//!\brief Constructor
+		//!\param _condition_modifier Given modifier for conditions structure containing the modifier for conditions that is represented by the structure.
+		condition_modifier( const condition_modifier& _condition_modifier ) : value_( _condition_modifier.value_ )
+		{
+			// Nothing to do...
+		}
+
+
+		//!\brief Get the modifier for conditions value represented by the structure.
+		operator inner() const
+		{
+			return ( value_ );
+		}
+
+
+		//!\brief Modifier for conditions represented by the structure.
+		inner value_;
+
+	};
+
+
+#endif
 
 
 //!\fn
