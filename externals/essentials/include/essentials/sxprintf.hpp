@@ -21,8 +21,7 @@
 	#include <boost/variant.hpp>
 #endif
 
-#include "essentials/compatibility/compatibility.hpp"
-
+#include "compatibility/compatibility.hpp"
 #include "format_settings.hpp"
 
 
@@ -110,7 +109,7 @@ void print_superfluous_parameters( std::ostream& _os,
 #endif
 
 
-void sxprintf(	std::ostream& _os,	const char* _format );
+void sxprintf(	std::ostream& _os, const char* _format );
 
 #ifndef SX_CPP03_BOOST
 template< typename value, typename ... args >

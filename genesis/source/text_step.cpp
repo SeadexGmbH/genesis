@@ -11,6 +11,8 @@
 
 #include "essentials/base.hpp"
 
+#include "recipe_callback.hpp"
+
 
 namespace sx
 {

@@ -34,12 +34,12 @@ recipe_block::~recipe_block() SX_NOEXCEPT
 
 void recipe_block::create_children( recipe_callback& _recipe_callback, std::stringstream& _ostream )
 {
-	for( sxe::SX_UNIQUE_PTR<recipe_step>& child : child_recipes_ )
+	SX_FOR( sxe::SX_UNIQUE_PTR<recipe_step>& child, child_recipes_ )
 	{
 		child->create( _recipe_callback, _ostream );
 	}
 }
-		
+
 
 void recipe_block::add_child( sxe::SX_UNIQUE_PTR<recipe_step> _child )
 {

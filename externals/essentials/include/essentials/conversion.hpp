@@ -23,7 +23,7 @@ namespace sxe
 //!\param _int_as_string Number in string format.
 //!\param _result Variable where the result will be stored.
 //!\return True on success, false otherwise.
-bool string_to_int(	const char* const _int_as_string, int& _result );
+bool string_to_int( const char* const _int_as_string, int& _result );
 
 //!\brief Converts a number from unsigned int 32 to string.
 //!\param _value Number to be converted.

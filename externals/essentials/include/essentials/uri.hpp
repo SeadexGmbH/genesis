@@ -8,11 +8,11 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef FORMAT_SETTINGS_1D24A599_70E3_42BB_BFE6_46BD94217FAB
-#define FORMAT_SETTINGS_1D24A599_70E3_42BB_BFE6_46BD94217FAB
+#ifndef URI_72CBB6C3_57D9_443A_99F0_9EDE9A2BC07D
+#define URI_72CBB6C3_57D9_443A_99F0_9EDE9A2BC07D
 
 
-#include <string>
+#include <deque>
 
 #include "compatibility/compatibility.hpp"
 
@@ -20,24 +20,34 @@
 namespace sxe
 {
 
-//!\struct format_settings
-//!\brief Structure containing information for formatting the output of sxprintf.
-struct format_settings SX_FINAL
+
+const char URI_DELIMITER = '/';
+
+
+class uri SX_FINAL
 {
-	//!\brief Constructor.
-	format_settings();
+public:
+	explicit uri( const std::string& _uri = "" );
+	~uri() SX_NOEXCEPT;
+	bool is_empty() const;
+	const std::string to_string() const;
+	const std::string& get_front() const;
+	const std::string& get_back();
+	void push_front( const std::string& _segment );
+	void push_back( const std::string& _segment );
+	void pop_front();
+	void pop_back();
+	size_t size() const;
 
 
-	std::string format_string_;
-	bool missing_closing_bracket_;
-	bool correct_;
-	bool hex_;
-	bool pad_zeros_;
-	bool places_set_;
-	int places_;
-	bool decimal_places_set_;
-	int decimal_places_;
+private:
+	const std::string build_uri() const;
+	void split_string_to_uri_segments( const std::string& _uri );
+
+
+	std::deque< std::string > uri_;
 };
+
 
 }
 

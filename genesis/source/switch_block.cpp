@@ -20,18 +20,18 @@ namespace genesis
 {
 
 
-	switch_block::switch_block( const std::string& _switch_name ) :
-		recipe_block(),
-		switch_name_( _switch_name ),
-		current_case_index_(),
-		switch_cases_(),
-		default_()
+switch_block::switch_block( const std::string& _switch_name ) :
+	recipe_block(),
+	switch_name_( _switch_name ),
+	current_case_index_(),
+	switch_cases_(),
+	default_()
 {
 	// Nothing to do...
 }
 
 
-	switch_block::~switch_block() SX_NOEXCEPT
+switch_block::~switch_block() SX_NOEXCEPT
 {
 	// Nothing to do...
 }
@@ -48,15 +48,15 @@ void switch_block::create_children( recipe_callback& _recipe_callback, std::stri
 {
 	if( current_case_index_ >= 0 )
 	{
-		std::vector<sxe::SX_UNIQUE_PTR<recipe_step>>& children_steps = switch_cases_[current_case_index_];
-		for( sxe::SX_UNIQUE_PTR<recipe_step>& child : children_steps )
+		std::vector< sxe::SX_UNIQUE_PTR<recipe_step> >& children_steps = switch_cases_[current_case_index_];
+		SX_FOR( sxe::SX_UNIQUE_PTR<recipe_step>& child , children_steps )
 		{
 			child->create( _recipe_callback, _ostream );
 		}
 	}
 	else
 	{
-		for( sxe::SX_UNIQUE_PTR<recipe_step>& child : default_ )
+		SX_FOR( sxe::SX_UNIQUE_PTR<recipe_step>& child , default_ )
 		{
 			child->create( _recipe_callback, _ostream );
 		}
@@ -77,7 +77,7 @@ void switch_block::add_child( sxe::SX_UNIQUE_PTR<recipe_step> _child )
 }
 
 
-void switch_block::set_case_index( int _index )
+void switch_block::set_case_index( const int _index )
 {
 	current_case_index_ = _index;
 }

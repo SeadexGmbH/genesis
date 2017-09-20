@@ -55,7 +55,7 @@ template_block::~template_block() SX_NOEXCEPT
 void template_block::create( recipe_callback& _recipe_callback, std::stringstream& _ostream )
 {
 	parse( template_to_parse_ );
-	final_check();			
+	final_check();
 	create_children( _recipe_callback, _ostream );
 }
 
@@ -385,7 +385,7 @@ const std::string template_block::get_last_to_be_closed() const
 
 std::string template_block::read_template_file( const std::string& _template_name, const std::string& _templates_path )
 {
-	std::string template_file_as_string;			
+	std::string template_file_as_string;
 	read( _templates_path + "/" + _template_name, template_file_as_string );
 	if( template_file_as_string.empty() )
 	{

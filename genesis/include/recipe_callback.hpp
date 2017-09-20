@@ -55,8 +55,8 @@ public:
 	virtual bool check_loop_condition( const std::string& _loop_name ) const = 0;
 
 	//!\brief Execute actions before a loop_block.
-	//!\param _loop_name Name of the loop block that is executed.	
-	virtual void before_loop( const std::string& _loop_name ) = 0;			
+	//!\param _loop_name Name of the loop block that is executed.
+	virtual void before_loop( const std::string& _loop_name ) = 0;
 
 	//!\brief Execute actions before an iteration of a loop_block.
 	//!\param _loop_name Name of the loop block that is executed.
@@ -64,7 +64,7 @@ public:
 
 	//!\brief Execute actions after an iteration of a loop_block.
 	//!\param _loop_name Name of the loop block that is executed.
-	virtual void after_loop_iteration( const std::string& _loop_name ) = 0;			
+	virtual void after_loop_iteration( const std::string& _loop_name ) = 0;
 
 	//!\brief Execute actions after a loop_block.
 	//!\param _loop_name Name of the loop block that is executed.
@@ -75,17 +75,16 @@ public:
 	virtual bool check_condition( const std::string& _condition_name ) const = 0;
 
 	//!\brief Execute actions before a condition_block.
-	//!\param _loop_name Name of the condition block that is executed.	
+	//!\param _loop_name Name of the condition block that is executed.
 	virtual void condition_begin( const std::string& _condition_name ) = 0;
 
 	//!\brief Execute actions after a condition_block.
-	//!\param _loop_name Name of the condition block that is executed.	
+	//!\param _loop_name Name of the condition block that is executed.
 	virtual void condition_end( const std::string& _condition_name ) = 0;
 
-	// DONE review
-	//!\brief Specifies the number of the case of the switch to be executed.
-	//!\param _switch_name Name of the switch block for which the case is asked.
-	//!\return The number of the case of the switch to be executed.
+	//!\brief Returns the index of the case of the switch with the given name which shall be executed.
+	//!\param _switch_name Name of the switch block for which the case index is requested.
+	//!\return The index of the case that shall be executed.
 	virtual int get_switch_case( const std::string& _switch_name ) = 0;
 };
 
