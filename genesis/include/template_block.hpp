@@ -84,7 +84,7 @@ private:
 			opened_recipes_.top()->add_child( sxe::move( _child ) );
 		}
 	}
-						
+
 
 	std::stack<recipe_block*> opened_recipes_;
 	std::vector<std::string> keywords_;

@@ -37,7 +37,7 @@ text_step::~text_step() SX_NOEXCEPT
 
 
 void text_step::create( recipe_callback& _recipe_callback, std::stringstream& _ostream )
-{			
+{
 	SX_UNUSED_PARAMETER( _recipe_callback );
 	_ostream << text_;
 }
