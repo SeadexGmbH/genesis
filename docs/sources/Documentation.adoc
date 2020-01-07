@@ -1,0 +1,20 @@
+== Documentation
+
+
+|===
+|Library| genesis
+|Version| {libversion}
+|===
+
+
+This section contains the Seadex genesis documentation including the API reference. 
+
+include::Building_genesis.adoc[]
+
+include::Dependencies.adoc[]
+
+include::Features.adoc[]
+
+include::Examples.adoc[]
+
+

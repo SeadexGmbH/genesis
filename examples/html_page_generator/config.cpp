@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 
 #include "config.hpp"
@@ -15,7 +11,6 @@ namespace examples
 {
 
 
-// DONE variable names lower case
 config::config() :
 	template_path_( "./templates" ),
 	source_template_file_ ("countries.gtpl"),
@@ -45,7 +40,7 @@ config::config() :
 	city dresden;
 	dresden.name_ = "Dresden";
 	dresden.population_ = 473300;
-		
+
 	country germany;
 	germany.name_ = "Germany";
 	germany.cities_.push_back( berlin );
@@ -103,9 +98,9 @@ config::config() :
 	usa.cities_.push_back( phoenix );
 	usa.cities_.push_back( austin );
 	usa.cities_.push_back( san_francisco );
-	usa.cities_.push_back( honolulu );	
+	usa.cities_.push_back( honolulu );
 	usa.capital_index_ = 3;
-	
+
 
 	city tokyo;
 	tokyo.name_ = "Tokyo";

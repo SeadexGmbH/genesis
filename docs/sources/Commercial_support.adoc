@@ -1,0 +1,9 @@
+=== Commercial support
+
+Seadex GmbH from Trossingen, Germany can provide you with commercial support.
+
+Support is available in the form of (but not limited to) the development of specific tools for your environment, custom development within essentials, consulting, or training.
+
+Also, Seadex can support you with additional developers.
+
+Please link:https://seadex.de/Impressum.html[contact, window=_blank] us if you have a question or require a quote.

@@ -1,0 +1,216 @@
+==== HTML page generator example
+
+In this example, the genesis library is used to create a generator for an HTML page that contains tables with cities for different countries. 
+
+===== Template files
+
+====== Base template
+
+The base template is the entry point for generating the page. 
+
+It looks like this: 
+
+
+.countries.gtpl
+[source]
+----
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 300px;
+}
+ 
+td, th {
+    border: 1px solid #E7C324;;
+    text-align: left;
+    padding: 3px;
+    height: 20px;
+}
+ 
+tr:nth-child(even) {
+    background-color: #252525;
+}
+ 
+body{
+background-color:#262626;
+color: #E7C324;
+}
+ 
+hr{
+color: #E7C324;
+}
+</style>
+ 
+<title>Population of big cities</title>
+ 
+</head>
+<body>
+ 
+<h1>Population of big cities.</h1>
+<p>List of countries:</p>
+<p style="font-size:12px">*The capital is marked <b>bold</b> and <a style="color:#1E90FF">blue</a></p>
+$loop(countries)
+<h3> <b>$var(country_name)</b></h3>
+$template(country_table.gtpl)
+<hr>
+$pool
+ 
+</body>
+</html>
+----
+
+This template for an HTML page contains a loop (starting at line 40, and ending at line 44) for iterating over a list of countries. For each country, the name will be generated using the '*$var*' command (line 41). Then a template that generates the table will be called using the '$template' command (line 42). The loop ends with the command '*$pool*'. 
+
+===== Table template file
+
+The template file for a table looks like this: 
+
+
+[options="header"]
+
+
+.country_table.gtpl
+[source]
+----
+<table>
+  <tr>      
+    <th>City</th>
+    <th>Population</th>    
+  </tr>
+  $loop(cities)
+  <tr>    
+    <td>$if(is_capital)<b><p style="color:#1E90FF">$fi$var(city_name)$if(is_capital)</p></b>$fi</td>
+    <td>$if(is_capital)<b><p style="color:#1E90FF">$fi$var(city_population)$if(is_capital)</p></b>$fi</td>
+  </tr>
+  $pool
+</table>
+----
+
+
+Each city will be represented in one line. In the columns are placed the name and the population of the city. For each city, we check if the city is the capital city of the country by calling '$if' command (lines 8 and 9). If the city has the index of the capital city, then the line containing the capital city is made bold and blue. The end of condition command '$fi' is called at the end. 
+
+===== Result
+
+The output HTML file containing a table with the cities of a specific country looks like link:http://genesis.seadex.de/countries.html[this]. 
+
+===== Data
+
+Countries and cities are stored in the structs country and city respectively: 
+
+[source]
+----
+struct country
+{
+  std::string name_;
+  std::vector<city> cities_;
+  std::size_t capital_index_;
+};
+ 
+struct city
+{
+  std::string name_;    
+  int population_;
+};
+----
+
+The structs are used in a configuration struct., The data is added manually in this case, but it could be read from file a file, a database, ... 
+
+[source]
+----
+struct config
+{
+  config();
+  std::string template_path_;
+  std::string source_template_file_;
+  std::string output_file_;
+  std::vector<country> countries_;
+};
+----
+
+===== genesis's callback interface implementation
+
+genesis offers a recipe callback interface which has to be implemented containing the generator logic. 
+
+For example, the function for getting the variable contents looks like this: 
+
+[source]
+----
+std::string recipe_callback_impl::get_variable_content( const std::string& _variable_name )
+{
+    std::string result( "" );
+    if( _variable_name == CITY_NAME )
+    {
+        result = config_.countries_[country_index_].cities_[city_index_].name_;
+    }
+    else if( _variable_name == CITY_POPULATION )
+    {
+        result = sxe::to_string( config_.countries_[country_index_].cities_[city_index_].population_ );
+    }
+    else if( _variable_name == COUNTRY_NAME )
+    {
+        result = config_.countries_[country_index_].name_;
+    }            
+    return( result );
+}
+----
+
+
+For each (city, population and country) the value is taken from a specific list with a specific index. 
+
+In the 'before_loop' method the indexes are set to 0 and in the 'after_loop_iteration' method they get incremented: 
+
+[source]
+----
+void recipe_callback_impl::after_loop_iteration( const std::string& _loop_name )
+{
+    if( _loop_name == LOOP_COUNTRIES )
+    {
+        ++country_index_;
+    }
+    else if( _loop_name == LOOP_CITIES )
+    {
+        ++city_index_;
+    }
+}
+----
+
+Checking the condition of the loop is done by checking if the index value is less than the size of the vector containing the data: 
+[source]
+----
+if( _loop_name == LOOP_COUNTRIES )
+{
+	result = country_index_ < config_.countries_.size();
+}
+----
+
+Checking the '*$if*' condition is pretty much the same: indexes are compared. 
+
+[source]
+----
+if( _condition_name == CONDITION_IS_CAPITAL )
+{
+	result = config_.countries_[country_index_].capital_index_ == city_index_;
+}
+----
+
+
+===== Generating the HTML page
+
+Generating the HTML page is simple now. The *configuration* and *callback* objects are created. The callback is then passed to the *recipe*. Next, the '*generate*' method is called on the recipe object. Finally, the content of the stream with the generated code is written into the output file by calling the '*write_to_file*' method. 
+
+[source]
+----
+examples::config configuration;
+examples::recipe_callback_impl recipe_callback( configuration );
+sx::genesis::recipe source_recipe( configuration.source_template_file_, cb, configuration.template_path_ );
+source_recipe.generate();
+source_recipe.write_to_file( configuration.output_file_ );
+----
+
+===== Source code
+
+The source code can be found on link:https://github.com/SeadexGmbH/genesis/tree/master/examples/html_page_generator[GitHub, window=_blank].

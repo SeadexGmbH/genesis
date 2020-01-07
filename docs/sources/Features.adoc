@@ -1,0 +1,22 @@
+=== Features
+
+List of supported functionality.
+
+
+include::Steps_and_blocks.adoc[]
+
+include::Text_step.adoc[]
+
+include::Variable_step.adoc[]
+
+include::Condition_block.adoc[]
+
+include::Loop_block.adoc[]
+
+include::Switch_block.adoc[]
+
+include::Template_block.adoc[]
+
+include::Recipe_callback.adoc[]
+
+include::Escape_sequeces.adoc[]

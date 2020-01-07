@@ -1,0 +1,9 @@
+=== Show your appreciation
+
+If you like genesis and find it useful, we would be very happy if you'd show your appreciation in one way or the other. It helps us to attract more attention to genesis. The more attention it gets the more feedback and input we get. And that is the knowledge we need to improve genesis further.
+
+There are multiple ways to show your appreciation:
+
+* Star genesis on link:https://github.com/SeadexGmbH/genesis[GitHub, window=_blank]
+
+* Contact us (via <<Contact & support>>) and allow us to feature you (or your company) as a reference user.

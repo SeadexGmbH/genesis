@@ -1,0 +1,8 @@
+[requires]
+seadex-essentials/2.1.3
+spdlog/1.11.0
+fmt/9.1.0
+
+[options]
+fmt*:header_only=True
+spdlog*:header_only=True

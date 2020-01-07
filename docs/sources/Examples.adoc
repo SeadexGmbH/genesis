@@ -1,0 +1,7 @@
+=== Examples
+
+In this section examples of generators that use the genesis library are provided. For now a simple HTML page generator is available, other examples will be added in the future. 
+
+* <<Html page generator>> - A project demonstrating how genesis can be used to generate a simple HTML page. It is using a base template and a table template that is called multiple times. 
+
+include::HTML_page_generator_example.adoc[]

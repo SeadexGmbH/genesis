@@ -1,0 +1,405 @@
+pipeline {
+    agent none
+
+    parameters {
+        booleanParam(name: 'RELEASE_BUILD', defaultValue: false, description: 'When Release is checked, a deployment is performed.')
+        booleanParam(name: 'DOXYGEN', defaultValue: false, description: 'Generate the HTML version of the in-code documentation.')
+        booleanParam(name: 'DOXYGEN_RTF', defaultValue: false, description: 'Generate a RTF version of the in-code documentation.')
+    }
+
+    environment {
+        VERSION = '2.0.0'
+        SOFTWARE_VERSION = "${VERSION}-${env.BUILD_NUMBER}"
+        SOFTWARE_VERSION_STR = "v${SOFTWARE_VERSION}"
+        VERSION_W_BUILD = "${VERSION}.${env.BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Linux builds') {
+            parallel {
+                stage('Linux') {
+                    agent {
+                        docker {
+                         registryUrl "${env.SX_DOCKER_REGISTRY}"
+                         image 'sx_debian_gcc_ruby_conan:latest'
+                         args '-u 0:0 -v /mnt/user/development/ci_ssh:/root/.ssh'
+                        }
+                    }
+
+                    environment {
+                        CONAN_USER_HOME = "${env.WORKSPACE}/"
+                        CONAN_NON_INTERACTIVE = 1
+                        CONAN_REVISIONS_ENABLED = 1
+                    }
+
+                    stages {
+                        stage('Check Version') {
+                            steps {
+                                script {
+                                    if (params.RELEASE_BUILD == true) {
+                                        dir("${env.WORKSPACE}/genesis/source/") {
+                                            println(env.VERSION)
+                                            def data = readFile(file: 'version.cpp')
+                                            def idx1 = data.indexOf('VERSION_MAJOR(')
+                                            def idx2 = data.indexOf('VERSION_MINOR(')
+                                            def idx3 = data.indexOf('VERSION_PATCH(')
+                                            final majorVersion = data.substring(idx1 + 15, idx1 + 16)
+                                            final minorVersion = data.substring(idx2 + 15, idx2 + 16)
+                                            final patchVersion = data.substring(idx3 + 15, idx3 + 16)
+                                            def fileVersion = majorVersion + '.' + minorVersion + '.' + patchVersion
+                                            println(fileVersion)
+
+                                            if (fileVersion != env.VERSION) {
+                                                currentBuild.result = 'FAILURE'
+                                                throw new Exception('Version in Jenkinfile is not the same as version in genesis!')
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        stage('Conan setup') {
+                            steps {
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux") {
+                                    sh 'chmod +x conan.sh'
+                                    sh "./conan.sh ${env.SX_CONAN}"
+                                }
+                            }
+                        }
+
+                        stage('Build') {
+                            steps {
+                                echo 'Building...'
+
+                                dir("${env.WORKSPACE}") {
+                                    echo 'Building DEBUG with cmake...'
+                                    sh 'conan install . -g CMakeToolchain --profile=debug --build=missing -of cmaked -o seadex-essentials*:shared=True'
+                                }
+
+                                dir("${env.WORKSPACE}/cmaked") {
+                                    sh 'cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DSPDLOG_FMT_EXTERNAL=ON -DCMAKE_BUILD_TYPE=Debug -DBUILD_SHARED_LIBS=ON -DGEN_BUILD_EXAMPLES=ON'
+                                    sh 'cmake --build --preset conan-debug'
+                                }
+
+                                dir("${env.WORKSPACE}/cmaked/bin") {
+                                    stash includes: '**', name: 'linux_debug_bin'
+                                }
+
+                                dir("${env.WORKSPACE}/cmaked/lib") {
+                                    stash includes: '**', name: 'linux_debug_lib'
+                                }
+
+                                dir("${env.WORKSPACE}") {
+                                    echo 'Building RELEASE with cmake...'
+                                    sh 'conan install . -g CMakeToolchain --profile=release --build=missing -of cmake -o seadex-essentials*:shared=True'
+                                }
+
+                                dir("${env.WORKSPACE}/cmake") {
+                                    sh 'cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DSPDLOG_FMT_EXTERNAL=ON -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DGEN_BUILD_EXAMPLES=ON'
+                                    sh 'cmake --build --preset conan-release'
+                                }
+
+                                dir("${env.WORKSPACE}/cmake/bin") {
+                                    stash includes: '**', name: 'linux_release_bin'
+                                }
+
+                                dir("${env.WORKSPACE}/cmake/lib") {
+                                    stash includes: '**', name: 'linux_release_lib'
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux/") {
+                                    sh 'chmod +x lib_path_extractor.py'
+                                    echo '[Gcc] Get ess_path:'
+                                    sh 'chmod +x get_essentials_from_conan.sh'
+                                    sh "./get_essentials_from_conan.sh ${env.WORKSPACE} ./../../../cmake/conan_toolchain.cmake essentials"
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux/") {
+                                    sh 'chmod +x lib_path_extractor.py'
+                                    echo '[Gcc debug] Get ess_path:'
+                                    sh 'chmod +x get_essentials_from_conan.sh'
+                                    sh "./get_essentials_from_conan.sh ${env.WORKSPACE} ./../../../cmaked/conan_toolchain.cmake essentialsd"
+                                }
+
+                                dir("${env.WORKSPACE}/essentials/") {
+                                    stash includes: '**', name: 'linux_essentials_so'
+                                }
+
+                                dir("${env.WORKSPACE}/essentialsd/") {
+                                    stash includes: '**', name: 'linux_essentials_d_so'
+                                }
+                            }
+                        }
+
+                        stage('Checks') {
+                            steps {
+                                dir("${env.WORKSPACE}") {
+                                    sh 'mkdir reports'
+                                    sh 'cppcheck genesis -I genesis/include --enable=all --inline-suppr --inconclusive --xml --xml-version=2 2> ./reports/cppcheck.xml'
+                                }
+
+                                dir("${env.WORKSPACE}/reports") {
+                                    script {
+                                        def cppCheckIssues = scanForIssues tool: cppCheck(pattern: 'cppcheck.xml')
+                                        publishIssues issues:[cppCheckIssues]
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Linux II') {
+                    agent {
+                        docker {
+                            registryUrl "${env.SX_DOCKER_REGISTRY}"
+                            image 'sx_debian_gcc_test_libs:latest'
+                            args '-u 0:0 -v /mnt/user/development/ci_ssh:/root/.ssh'
+                        }
+                    }
+
+                    stages {
+                        stage('Build (II)') {
+                            steps {
+                                echo 'Building...'
+
+                                dir("${env.WORKSPACE}") {
+                                   sh 'mkdir cmake'
+                                   sh 'mkdir cmaked'
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux") {
+                                    sh 'chmod +x build.sh'
+                                    sh './build.sh'
+                                }
+
+                                dir("${env.WORKSPACE}/externals") {
+                                    stash includes: '**', name: 'linux_release_externals_lib'
+                                }
+                            }
+                        }
+                    }
+                }
+
+                stage('Linux Clang') {
+                    agent {
+                        docker {
+                            registryUrl "${env.SX_DOCKER_REGISTRY}"
+                            image 'sx_debian_clang_conan:latest'
+                            args '-u 0:0 -v /mnt/user/development/ci_ssh:/root/.ssh'
+                        }
+                    }
+
+                    stages {
+                        stage('Build (Clang)') {
+                            steps {
+                                echo '[Clang] Building...'
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux") {
+                                    sh 'chmod +x clang_build.sh'
+                                    sh "./clang_build.sh"
+                                }
+
+                                dir("${env.WORKSPACE}/cmake/bin") {
+                                    stash includes: '**', name: 'linux_clang_release_bin'
+                                }
+
+                                dir("${env.WORKSPACE}/cmake/lib") {
+                                    stash includes: '**', name: 'linux_clang_release_lib'
+                                }
+
+                                dir("${env.WORKSPACE}/cmaked/bin") {
+                                    stash includes: '**', name: 'linux_clang_debug_bin'
+                                }
+
+                                dir("${env.WORKSPACE}/cmaked/lib") {
+                                    stash includes: '**', name: 'linux_clang_debug_lib'
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux/") {
+                                    sh 'chmod +x lib_path_extractor.py'
+                                    echo '[Clang] Get ess_path:'
+                                    sh 'chmod +x get_essentials_from_conan.sh'
+                                    sh "./get_essentials_from_conan.sh ${env.WORKSPACE} ./../../../cmake/conan_toolchain.cmake essentials"
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/linux/") {
+                                    sh 'chmod +x lib_path_extractor.py'
+                                    echo '[Clang debug] Get ess_path:'
+                                    sh 'chmod +x get_essentials_from_conan.sh'
+                                    sh "./get_essentials_from_conan.sh ${env.WORKSPACE} ./../../../cmaked/conan_toolchain.cmake essentialsd"
+                                }
+
+                                dir("${env.WORKSPACE}/essentials/") {
+                                    stash includes: '**', name: 'linux_clang_essentials_so'
+                                }
+
+                                dir("${env.WORKSPACE}/essentialsd/") {
+                                    stash includes: '**', name: 'linux_clang_essentials_d_so'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Windows') {
+            agent {
+                label 'windows'
+            }
+
+            environment {
+                CONAN_USER_HOME = "${env.WORKSPACE}"
+                CONAN_NON_INTERACTIVE = 1
+                CONAN_REVISIONS_ENABLED = 1
+            }
+
+            stages {
+                stage('[Win] Conan setup') {
+                    steps {
+                        dir("${env.WORKSPACE}/cfg/jenkins/windows") {
+                            bat "conan_stage.bat ${env.SX_CONAN}"
+                        }
+                    }
+                }
+
+                stage('[Win] Build') {
+                    steps {
+                        echo 'Building...'
+
+                        dir("${env.WORKSPACE}/win-cmake") {
+                            bat 'cmake .. -G \"Visual Studio 16 2019\" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DSPDLOG_FMT_EXTERNAL=ON -DCMAKE_BUILD_TYPE=Release -DGEN_BUILD_EXAMPLES=ON'
+
+                            echo 'Build Release version'
+                            bat 'cmake --build --preset conan-release'
+                        }
+
+                        dir("${env.WORKSPACE}/win-cmaked") {
+                            bat 'cmake .. -G \"Visual Studio 16 2019\" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DSPDLOG_FMT_EXTERNAL=ON -DCMAKE_BUILD_TYPE=Debug -DGEN_BUILD_EXAMPLES=ON'
+
+                            echo 'Build Debug version'
+                            bat 'cmake --build --preset conan-debug'
+                        }
+                    }
+                }
+
+                stage('[Win] Deploy') {
+                    steps {
+                        echo 'Deploying....'
+
+                        script {
+                            if (params.RELEASE_BUILD == true) {
+                                dir("${env.WORKSPACE}") {
+                                    bat 'mkdir deploy'
+                                    bat 'mkdir deploy\\genesis'
+                                    bat 'mkdir deploy\\genesis\\source'
+                                    bat 'mkdir deploy\\genesis\\build'
+                                    bat 'mkdir deploy\\genesis\\documentation'
+                                }
+
+                                dir("${env.WORKSPACE}/deploy/genesis/source") {
+                                    checkout scm
+                                }
+
+                                dir("${env.WORKSPACE}/deploy/genesis/source") {
+                                    bat 'rmdir /s /q conan'
+                                }
+
+                                dir("${env.WORKSPACE}/docs") {
+                                    bat 'generateAll.bat'
+                                    if (params.DOXYGEN == true) {
+                                        if (params.DOXYGEN_RTF == true) {
+                                            bat "generate_doxygen.py -r yes -v ${env.VERSION}"
+                                        } else {
+                                            bat "generate_doxygen.py -v ${env.VERSION}"
+                                        }
+                                    }
+                                    echo 'Documentation generated.'
+                                }
+
+                                dir("${env.WORKSPACE}") {
+                                        bat 'mkdir cmake'
+                                        bat 'mkdir cmaked'
+                                        bat 'mkdir externals'
+                                        bat 'mkdir externals\\essentials'
+                                        bat 'mkdir clang-cmake'
+                                        bat 'mkdir clang-cmaked'
+                                }
+
+                                dir("${env.WORKSPACE}/externals/essentials") {
+                                    unstash 'linux_release_externals_lib'
+                                }
+
+                                dir("${env.WORKSPACE}/cmake") {
+                                    unstash 'linux_release_bin'
+                                    unstash 'linux_release_lib'
+                                    unstash 'linux_essentials_so'
+                                }
+
+                                dir("${env.WORKSPACE}/cmaked") {
+                                    unstash 'linux_debug_bin'
+                                    unstash 'linux_debug_lib'
+                                    unstash 'linux_essentials_d_so'
+                                }
+
+                                dir("${env.WORKSPACE}/clang-cmake") {
+                                    unstash 'linux_clang_release_bin'
+                                    unstash 'linux_clang_release_lib'
+                                    unstash 'linux_clang_essentials_so'
+                                }
+
+                                dir("${env.WORKSPACE}/clang-cmaked") {
+                                    unstash 'linux_clang_debug_bin'
+                                    unstash 'linux_clang_debug_lib'
+                                    unstash 'linux_clang_essentials_d_so'
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/windows/") {
+                                    bat "python copy_conan_essentials.py ./../../../win-cmake/conan_toolchain.cmake ${env.WORKSPACE}/win-cmake"
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/windows/") {
+                                    bat "python copy_conan_essentials.py ./../../../win-cmaked/conan_toolchain.cmake ${env.WORKSPACE}/win-cmaked"
+                                }
+
+                                dir("${env.WORKSPACE}/cfg/jenkins/windows") {
+                                    bat "genesis_deploy.bat ${VERSION_W_BUILD} ${env.ARTIFACTORY_USER} ${env.ARTIFACTORY_PASS} ${env.ARTIFACTORY_GENESIS}"
+                                    //bat "conan_recipe_upload.bat ${env.ARTIFACTORY_USER} ${env.ARTIFACTORY_PASS} ${env.SX_CONAN}"
+                                }
+                            }
+                            else {
+                                echo 'No RELEASE, NO deployment.'
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Linux tagging') {
+            agent {
+                docker {
+                    registryUrl "${env.SX_DOCKER_REGISTRY}"
+                    image 'sx_debian_gcc_ruby_conan:latest'
+                    args '-u 0:0 -v /mnt/user/development/ci_ssh:/root/.ssh'
+                }
+            }
+
+            steps {
+                script {
+                    if (params.RELEASE_BUILD == true) {
+                        echo 'Tagging ${SOFTWARE_VERSION_STR}'
+                        sh 'git config --global --add safe.directory \'*\''
+                        sh "git tag \${SOFTWARE_VERSION_STR}"
+                        sh 'git push origin \${SOFTWARE_VERSION_STR}'
+                    }
+                    else {
+                        echo 'No RELEASE no TAG!'
+                    }
+                }
+            }
+        }
+    }
+}

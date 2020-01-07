@@ -1,19 +1,14 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 
 #include <iostream>
 
-#include "essentials/sxprintf.hpp"
+#include "fmt/format.h"
 
 #include "version.hpp"
-#include "build_number.hpp"
 
 
 namespace sx
@@ -32,9 +27,9 @@ namespace
 {
 
 
-const sxe::uint16_t VERSION_MAJOR( 0 );
-const sxe::uint16_t VERSION_MINOR( 3 );
-const sxe::uint16_t VERSION_PATCH( 2 );
+const std::uint16_t VERSION_MAJOR( 2 );
+const std::uint16_t VERSION_MINOR( 0 );
+const std::uint16_t VERSION_PATCH( 0 );
 
 
 }
@@ -43,32 +38,26 @@ const sxe::uint16_t VERSION_PATCH( 2 );
 // cppcheck-suppress unusedFunction
 void log_version()
 {
-	std::cout << sxe::sxprintf( "genesis library version %.%.%.%.", get_major_version(),
-		get_minor_version(), get_patch_version(), get_build_number() ) << std::endl;
+	std::cout << fmt::format( "genesis library version {}.{}.{}.", get_major_version(),
+		get_minor_version(), get_patch_version() ) << std::endl;
 }
 
 
-sxe::uint16_t get_major_version()
+std::uint16_t get_major_version()
 {
 	return( VERSION_MAJOR );
 }
 
 
-sxe::uint16_t get_minor_version()
+std::uint16_t get_minor_version()
 {
 	return( VERSION_MINOR );
 }
 
 
-sxe::uint16_t get_patch_version()
+std::uint16_t get_patch_version()
 {
 	return( VERSION_PATCH );
-}
-
-
-sxe::uint16_t get_build_number()
-{
-	return( BUILD_NUMBER );
 }
 
 

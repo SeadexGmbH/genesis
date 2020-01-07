@@ -1,0 +1,5 @@
+sources:
+  "2.0.0":
+    url:
+      - "https://seadex.de/downloads/products/genesis/dev/genesis.zip"
+    sha256: "8520d3e5759153537ce8c8aba533e8e7d3d14256ed909109e71d7a20ad9d8f70"

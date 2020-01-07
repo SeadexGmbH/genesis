@@ -1,0 +1,15 @@
+==== Loop block
+
+A loop block represents a 'for' loop. For each iteration of the loop, all nested elements will be created. 
+
+===== Command
+[source]
+----
+$loop(loop_name)
+// child steps
+$pool
+----
+
+A loop block must end with a '*$pool*' command. If the loop is not correctly ended (with '*$pool*'), then the template is considered to be ill-formed. 
+
+NOTE: New line after the close command '$pool' is discarded. 

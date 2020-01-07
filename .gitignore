@@ -87,3 +87,7 @@ Generated\ Files/
 *.svclog
 *.scc
 *.VC.db
+
+
+# Node.js modules
+node_modules

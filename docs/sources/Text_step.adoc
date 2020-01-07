@@ -1,0 +1,3 @@
+==== Text step
+
+A text step contains a sequence of text from the template file. It will be written to the output string stream when the output is generated. 

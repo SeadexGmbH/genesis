@@ -1,0 +1,12 @@
+# Ruby
+Install Ruby for Windows from:
+https://rubyinstaller.org/downloads/
+
+We recommand: Ruby 3.0.1-1
+
+
+# Node.js
+Install Node.js for Windows from:
+https://nodejs.org/en/download/
+
+We recommand: Node.js 14.17 or newer.

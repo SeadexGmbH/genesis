@@ -1,0 +1,36 @@
+==== Switch block
+
+A switch block represents a 'switch' statement. Only elements of the selected case will be created. 
+
+===== Command
+
+[source]
+----
+$switch(switch_name)
+$case(0)
+	// child steps
+$esac
+$case(1)
+	// child steps
+$esac
+// ...
+$default()
+	// child steps
+$tluafed
+$hctiws
+----
+
+
+A switch block must end with a '*$hctiws*' command (it is 'switch' backward). 
+
+===== Case and default
+
+Each case command ( '*$case*') must have a matching closing command ('*$esac*'). Cases take an index as a parameter (an int). 
+
+The default command '*$default*' has to have empty parentheses and an end command '*$tluafed*' ('default' backward). 
+
+An index value will be passed to the switch block during generation. The value is determined by the return value of the method '*get_switch_case*' of the callback interface. Then the code within the matching case command will be generated. If the value returned by the callback method does not match any of the cases then the code within the default command will be generated. The default command is optional though. If it is omitted and no case matches, no code will be generated for the switch block at all. 
+
+Only indexes equal to or greater than 0 are legal. 
+
+NOTE: New lines after the close commands '$esac', '$tluafed' and '$hctiws' are discarded. 

@@ -1,0 +1,28 @@
+==== Escape sequences
+
+In genesis the '*$*' symbol represents the start of a command. For example: 
+
+[source]
+----
+$var(variable_name)
+$loop(condition_name)
+$pool
+----
+
+genesis defines certain escape sequences. An escape sequence starts with a '*$*' (dollar sign) just like a command. 
+
+===== Line break
+genesis has a special command for inserting a new line: '*$@*'. When this sequence is found in the template, it will be replaced by a new line character. 
+
+===== Print $
+
+If a '$' is needed in the output, then a double '$' has to be used.
+
+
+===== Example
+[source]
+----
+I got $$s!
+----
+
+The template above will print 'I got $s!' 

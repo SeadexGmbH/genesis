@@ -1,0 +1,5 @@
+== Downloads
+
+Download the latest version of the genesis library link:https://seadex.de/downloads/products/genesis/genesis_2_0_0.7z[here, window=_blank].
+
+For older versions, you shall check on the genesis' link:https://github.com/SeadexGmbH/genesis/releases[GitHub, window=_blank].

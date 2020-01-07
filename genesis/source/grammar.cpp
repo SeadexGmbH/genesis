@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #include "grammar.hpp"
 
@@ -15,13 +11,13 @@ namespace sx
 
 
 namespace genesis
-{	
+{
 
 
 const std::string condition_modifier_NOT = "NOT";
 const std::string condition_modifier_NONE = "NONE";
 const char DELIMITER_CHAR = '$';
-const char LINE_BREAK_CHAR = '@';		
+const char LINE_BREAK_CHAR = '@';
 const char OPEN_PARENTHESIS_CHAR = '(';
 const char CLOSE_PARENTHESIS_CHAR = ')';
 const char COMMA_CHAR = ',';
@@ -41,6 +37,7 @@ const int SWITCH_DEFAULT_INDEX_VALUE = -1;
 const std::string TEMPLATE_COMMAND = "$template";
 const char NEW_LINE_CHAR = '\n';
 const std::size_t SIZE_ONE = 1;
+const char INDENT_CHAR = '\t';
 
 
 }

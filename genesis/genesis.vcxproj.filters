@@ -16,41 +16,6 @@
     <Filter Include="license">
       <UniqueIdentifier>{e4072d57-8fc3-45b0-8a55-890235596a11}</UniqueIdentifier>
     </Filter>
-    <Filter Include="license\essentials">
-      <UniqueIdentifier>{97c6b545-0106-4ab1-8645-a95c5e9add8b}</UniqueIdentifier>
-    </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="license\genesis_Anhang_Appendix_20170406.pdf">
-      <Filter>license</Filter>
-    </None>
-    <None Include="license\genesis_Lizenz_und_Nutzungsbedingungen_geschaeftliche_Nutzung_Fassung_20170406.pdf">
-      <Filter>license</Filter>
-    </None>
-    <None Include="license\genesis_Lizenz_und_Nutzungsbedingungen_geschaeftliche_Nutzung_Fassung_20170406_en.pdf">
-      <Filter>license</Filter>
-    </None>
-    <None Include="license\genesis_Lizenz_und_Nutzungsbedingungen_private_und wissenschaftliche_Nutzung_Fassung_20170406.pdf">
-      <Filter>license</Filter>
-    </None>
-    <None Include="license\genesis_Lizenz_und_Nutzungsbedingungen_private_und wissenschaftliche_Nutzung_Fassung_20170406_en.pdf">
-      <Filter>license</Filter>
-    </None>
-    <None Include="..\externals\essentials\license\essentials_Anhang_Appendix_20170406.pdf">
-      <Filter>license\essentials</Filter>
-    </None>
-    <None Include="..\externals\essentials\license\essentials_Lizenz_und_Nutzungsbedingungen_geschaeftliche_Nutzung_Fassung_20170406.pdf">
-      <Filter>license\essentials</Filter>
-    </None>
-    <None Include="..\externals\essentials\license\essentials_Lizenz_und_Nutzungsbedingungen_geschaeftliche_Nutzung_Fassung_20170406_en.pdf">
-      <Filter>license\essentials</Filter>
-    </None>
-    <None Include="..\externals\essentials\license\essentials_Lizenz_und_Nutzungsbedingungen_private_und wissenschaftliche_Nutzung_Fassung_20170406.pdf">
-      <Filter>license\essentials</Filter>
-    </None>
-    <None Include="..\externals\essentials\license\essentials_Lizenz_und_Nutzungsbedingungen_private_und wissenschaftliche_Nutzung_Fassung_20170406_en.pdf">
-      <Filter>license\essentials</Filter>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\condition_modifier.hpp">
@@ -99,9 +64,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\switch_block.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="include\build_number.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="include\version.hpp">
@@ -154,5 +116,10 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="changelog.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\LICENSE.md">
+      <Filter>license</Filter>
+    </None>
   </ItemGroup>
 </Project>

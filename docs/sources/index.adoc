@@ -1,0 +1,11 @@
+include::cover_page.adoc[]
+
+include::Documentation.adoc[]
+
+include::License.adoc[]
+
+include::Downloads.adoc[]
+
+include::Changelog.adoc[]
+
+include::Contact_and_support.adoc[]

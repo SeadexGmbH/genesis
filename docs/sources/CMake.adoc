@@ -1,0 +1,83 @@
+==== CMake
+
+The build with CMake is currently tested for Linux (Debian, GCC, Clang) and Windows (Microsoft Visual Studio). 
+
+The _CMakeFileLists.txt_ files are located in the solution directory, the genesis project directory and the examples directory.
+
+===== Generating with CMake and Conan
+
+NOTE: The following commands require Conan version 2.0.
+
+
+====== Linux
+
+In a terminal go to the directory into which you extracted genesis and run the following commands: 
+
+[source]
+----
+conan install . -g CMakeToolchain --profile=release --build=missing -of cmake
+
+cd cmake
+
+cmake .. -G "Unix Makefiles" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DCMAKE_BUILD_TYPE=Release  -DGEN_BUILD_EXAMPLES=ON
+
+cmake --build --preset conan-release
+----
+
+NOTE: Options (e.g. architecture) are used from the Conan profile.
+
+
+====== Windows
+
+In a terminal go to the directory into which you extracted genesis and run the following commands: 
+
+[source]
+----
+conan install . -g CMakeToolchain --profile=release --build=missing
+
+cmake . -G "Visual Studio 16 2019" -DCMAKE_TOOLCHAIN_FILE=conan_toolchain.cmake -DCMAKE_POLICY_DEFAULT_CMP0091=NEW -DGEN_BUILD_EXAMPLES=ON
+
+cmake --build --preset conan-release
+----
+
+NOTE: Options like architecture, Visual Studio version (generator), etc... are used from Conan profiles.
+
+*Release/Debug*
+
+Choosing between release and debug builds is done via Conan profiles and presets.
+
+*Preprocessor definitions*
+
+Using genesis' preprocessor definitions with CMake is also possible by passing them as parameters in the console/terminal. 
+
+[cols="1,1"]
+|===
+|Definition| Description
+
+|CPP_VERSION=[VALUE]| Sets the standard for the {CPP} compiler. When it is not used, {CPP}11 will be used.
+
+|===
+
+*Build options*
+
+The genesis build can be customized using the following options:
+
+[cols="1,1"]
+|===
+|Definition| Description
+
+|GEN_BUILD_EXAMPLES=[OFF]|When GEN_BUILD_EXAMPLES is defined, the example is built as well. By default, it is not defined and therefore, not built.
+
+|FMT_LIB_INCLUDE=[VALUE]
+
+FMT_LIB=[VALUE] 
+
+SPDLOG_LIB_INCLUDE=[VALUE] 
+
+SPDLOG_LIB=[VALUE]
+
+ESSENTIALS_LIB_INCLUDE=[VALUE]
+
+ESSENTIALS_LIB=[VALUE]| To use the essentials, fmt and spdlog libraries from the user location, all the variables must be used at the same time with the correct paths. For the libs, the library is specified as well (e.g. ".../fmt/lib/fmt.lib").
+
+|===

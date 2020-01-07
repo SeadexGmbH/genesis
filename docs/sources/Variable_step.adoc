@@ -1,0 +1,10 @@
+==== Variable step
+
+A variable step contains the name of a variable. When the output is generated, the value of the variable will be written. 
+
+===== Command
+
+[source]
+----
+$var(variable_name)
+----

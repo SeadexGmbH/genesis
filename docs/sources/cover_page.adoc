@@ -1,0 +1,19 @@
+= genesis library
+:libversion: 2.0.0
+{libversion}
+:author: Seadex GmbH
+:email: info@seadex.de
+:toc:
+:toc-placement: left
+:toclevels: 3
+// toc-title definition MUST follow document title without blank line!
+:toc-title: Table of contents
+:doctype: book
+:listing-caption: Listing
+//:pdf-page-size: A4
+// where are images located?
+:imagesdir: ./.images
+:version: 1.0.0
+:revnumber: {libversion} Copyright (C) 2022 Seadex GmbH. All rights reserved.
+:footer: genesis {libversion} | Copyright (C) 2022 Seadex GmbH. All rights reserved.
+:stylesheet: ./scripts/asciidoctor.css

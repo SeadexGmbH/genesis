@@ -1,0 +1,12 @@
+== Contact & support
+
+Your feedback is very important to and for us!
+
+In case you have questions, suggestions, if you want to file a bug report, or if we can assist you in any other way please send us an email to genesis@seadex.de.
+
+Also, we are very glad if you <<Show your appreciation>>!
+
+
+include::Commercial_support.adoc[]
+
+include::Show_your_appreciation.adoc[]

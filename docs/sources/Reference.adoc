@@ -1,0 +1,3 @@
+=== Reference
+
+This section contains the reference documentation for the C++ code. The types (classes, enums, ...), functions and macros that the "genesis" library provides are explained link:http://genesis.seadex.de/public/content/subpages/genesis%20{libversion}/html_code_reference/index.html[here, window=_blank].

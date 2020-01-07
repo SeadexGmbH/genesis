@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #include "condition_modifier.hpp"
 
@@ -24,9 +20,10 @@ namespace sx
 namespace genesis
 {
 
-		
+
+// cppcheck-suppress unusedFunction
 condition_modifier get_condition_modifier_from_string( const std::string& _condition_modifier )
-{			
+{
 	const std::string condition_modifier_caps = sxe::to_upper( _condition_modifier );
 
 	condition_modifier modifier( condition_modifier::NONE );
@@ -40,7 +37,7 @@ condition_modifier get_condition_modifier_from_string( const std::string& _condi
 	}
 	else
 	{
-		throw sx::genesis::genesis_exception( "Invalid condition modifier!" );
+		throw genesis_exception( "Invalid condition modifier!" );
 	}
 	return ( modifier );
 }

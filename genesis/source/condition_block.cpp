@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #include "condition_block.hpp"
 
@@ -31,22 +27,22 @@ condition_block::condition_block( const std::string& _condition_name, const cond
 }
 
 
-condition_block::~condition_block() SX_NOEXCEPT
+condition_block::~condition_block() noexcept
 {
 	// Nothing to do...
 }
 
 
-void condition_block::create( recipe_callback& _recipe_callback, std::stringstream& _ostream )
+void condition_block::create( recipe_callback& _recipe_callback, std::stringstream& _ostream, const int _indent )
 {
 	_recipe_callback.condition_begin( condition_name_ );
 	bool result = _recipe_callback.check_condition( condition_name_ );
 	apply_modifier( result );
 	if( result )
 	{
-		create_children( _recipe_callback, _ostream );
-		_recipe_callback.condition_end( condition_name_ );
+		create_children( _recipe_callback, _ostream, _indent );
 	}
+	_recipe_callback.condition_end( condition_name_ );
 }
 
 

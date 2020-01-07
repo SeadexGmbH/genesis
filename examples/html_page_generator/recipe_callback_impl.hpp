@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #ifndef RECIPE_CALLBACK_IMPL_D1209279_561E_435D_B6DC_68F2A50937C2
 #define RECIPE_CALLBACK_IMPL_D1209279_561E_435D_B6DC_68F2A50937C2
@@ -20,23 +16,23 @@ namespace examples
 {
 
 
-class recipe_callback_impl SX_FINAL
+class recipe_callback_impl final
 	: public sx::genesis::recipe_callback
 {
 public:
 	explicit recipe_callback_impl( const config& _config );
-	virtual ~recipe_callback_impl() SX_NOEXCEPT SX_OVERRIDE;
-	SX_NO_COPY( recipe_callback_impl )
-	virtual std::string get_variable_content( const std::string& _variable_name ) SX_OVERRIDE;
-	virtual void before_loop( const std::string& _loop_name ) SX_OVERRIDE;
-	virtual void before_loop_iteration( const std::string& _loop_name ) SX_OVERRIDE;
-	virtual void after_loop_iteration( const std::string& _loop_name ) SX_OVERRIDE;
-	virtual bool check_loop_condition( const std::string& _loop_name ) const SX_OVERRIDE;
-	virtual void after_loop( const std::string& _loop_name ) SX_OVERRIDE;
-	virtual bool check_condition( const std::string& _condition_name ) const SX_OVERRIDE;
-	virtual void condition_begin( const std::string& _condition_name ) SX_OVERRIDE;
-	virtual void condition_end( const std::string& _condition_name ) SX_OVERRIDE;
-	virtual int get_switch_case( const std::string& _switch_name ) SX_OVERRIDE;
+	virtual ~recipe_callback_impl() noexcept override;
+	SXE_NO_COPY( recipe_callback_impl )
+	virtual std::string get_variable_content( const std::string& _variable_name ) override;
+	virtual void before_loop( const std::string& _loop_name ) override;
+	virtual void before_loop_iteration( [[ maybe_unused ]] const std::string& _loop_name ) override;
+	virtual void after_loop_iteration( const std::string& _loop_name ) override;
+	virtual bool check_loop_condition( const std::string& _loop_name ) const override;
+	virtual void after_loop( [[ maybe_unused ]] const std::string& _loop_name ) override;
+	virtual bool check_condition( const std::string& _condition_name ) const override;
+	virtual void condition_begin( [[ maybe_unused ]] const std::string& _condition_name ) override;
+	virtual void condition_end( [[ maybe_unused ]] const std::string& _condition_name ) override;
+	virtual int get_switch_case( const std::string& _switch_name ) override;
 
 
 private:

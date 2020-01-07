@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #ifndef HTML_GRAMMAR_C967B713_6A36_4E0E_92A7_DA61983141BC
 #define HTML_GRAMMAR_C967B713_6A36_4E0E_92A7_DA61983141BC
@@ -17,7 +13,7 @@
 
 namespace examples
 {
-	 
+
 
 extern const std::string CITY_NAME;
 extern const std::string CITY_POPULATION;

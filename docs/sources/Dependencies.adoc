@@ -1,0 +1,9 @@
+==== Dependencies
+
+The genesis library starting with version 2.0 has the following dependencies:
+
+* seadex-essentials/2.1.3
+* spdlog/1.11.0
+* fmt/9.1.0
+
+These dependencies can be provided using Conan (see <<Use of Conan>>).

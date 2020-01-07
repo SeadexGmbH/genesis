@@ -1,0 +1,12 @@
+==== Template block
+
+A template block reads the specified template file which is treated as a recipe itself. All nested elements will be created. 
+
+===== Command
+
+[source]
+----
+$template(template_file_name)
+----
+
+NOTE: *template_file_name* must contain the extension of the template file as well! 

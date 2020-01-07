@@ -1,0 +1,19 @@
+==== Microsoft Visual Studio
+
+===== 2019
+
+For Visual Studio 2019 a ready-to-use solution is provided. It contains: 
+
+* genesis - source code of the genesis library 
+* examples - project using and demonstrating some of the features of genesis
+* build - a folder containing the property sheets for the projects 
+* genesis.sln - the solution file that contains the projects mentioned above 
+* license file
+* docs - a folder containing the documentation
+
+===== Use of Conan
+
+The genesis library can use link:https://conan.io/downloads.html[Conan, window=_blank] to get its dependencies (see the <<Dependencies>>)
+
+
+After the build, the genesis library can be integrated into your projects. 

@@ -1,0 +1,28 @@
+=== Building genesis
+This section provides you with instructions on how to build genesis in your environment.
+
+==== Getting the source
+
+* link:http://genesis.seadex.de[Download, window=_blank] the genesis package including the {CPP} source code from the genesis homepage.
+* Unzip the source package into a directory of your choice (this is referred to as $EDIR in the rest of the documentation). You can use link:http://www.7-zip.org/[7-Zip, window=_blank] or a similar tool for this task. 
+
+==== Building
+These building options are available:
+
+* <<Microsoft Visual Studio>> - Description of how to build the genesis library with Microsoft Visual Studio and the Microsoft Visual Studio Compiler (using the provided solution and projects). 
+* <<CMake>> - Description page for building the genesis library using CMake for Linux and Windows (Visual Studio/MSBuild).
+
+==== Other compilers and platforms
+Building for Linux with GCC is supported out of the box. For other compilers and/or platforms you can just adopt the CMake files. 
+
+Alternatively, you can quite easily set up your build. All you need to build genesis with a different compiler suite and/or on a different platform is {CPP}17 support. Just take the genesis source code and set up a library project according to the procedures necessary for your platform. 
+
+You can also link:https://seadex.de/Impressum.html[contact us] to get a quote for commercial support for porting genesis to your platform! 
+
+If you run into compiler/build problems in your environment (especially compiler errors or warnings), please link:https://seadex.de/Impressum.html[contact us]. We then will try to resolve these issues. 
+
+
+include::Microsoft_Visual_Studio.adoc[]
+
+include::CMake.adoc[]
+

@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #include "file_writer.hpp"
 
@@ -23,13 +19,10 @@ namespace genesis
 {
 
 
+// cppcheck-suppress unusedFunction
 void write( const std::string& _file_path, const std::ostream& _output_stream )
 {
-#ifdef SX_CPP03_BOOST
-	std::ofstream target_file( _file_path.c_str(), std::ios_base::out );
-#else
-	std::ofstream target_file( _file_path, std::ios_base::out );
-#endif
+	std::ofstream target_file( _file_path, std::ios_base::out | std::ios_base::binary );
 
 	if( target_file.is_open() )
 	{
@@ -38,7 +31,7 @@ void write( const std::string& _file_path, const std::ostream& _output_stream )
 	}
 	else
 	{
-		throw sx::genesis::genesis_exception( ERROR_WRITE_FILE, _file_path );
+		throw genesis_exception( ERROR_WRITE_FILE, _file_path );
 	}
 }
 

@@ -1,0 +1,21 @@
+==== Recipe callback
+
+The recipe callback is the interface that has to be implemented by the generator using genesis. 
+
+The recipe callback has the following default methods: 
+
+[options="header"]
+|=========
+|Method|Parameters|Return type|Scope
+|get_variable_content|variable name (string)|string|Returns the content of the variable with the given name. 
+|condition_begin|condition name (string)|void|Executes actions before the check of the condition with the given name. 
+|check_condition| condition name (string)
+condition modifier|bool|Checks the condition with the given name and returns its result. 
+|condition_end|condition name (string)|void|Executes actions after the condition with the given name. 
+|before_loop|loop name (string)|void|Executes actions before the loop with the given name is executed. 
+|before_loop_iteration|loop name (string)|void|Executes actions before an iteration of the loop with the given name is executed. 
+|check_loop_condition|loop name (string)|bool|Checks if the loop with the given name needs to execute another iteration. 
+|after_loop_iteration|loop name (string)|void|Executes actions after an iteration of the loop with the given name was executed. 
+|after_loop|loop name (string)|void|Executes actions after the loop with the given name was executed. 
+|get_switch_case|switch name (string)|int|Returns the index of the case of the switch with the given name which shall be executed. 
+|=========

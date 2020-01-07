@@ -1,0 +1,31 @@
+==== Condition block
+
+A condition block represents an 'if'. If the condition is true, then all nested elements will be created, otherwise not. 
+
+===== Command
+
+A condition block has the following structure: 
+
+[source]
+----
+$if(condition_name[, condition_modifier])
+// child steps
+$fi
+----
+
+A condition block must end with a '$fi' command. If the condition is not correctly ended (with '$fi'), then the template is considered ill-formed. 
+
+===== Condition modifier
+
+A condition block can have an optional condition modifier. The following pre-defined values can be used: 
+
+[options="header]
+|=======================
+|Value|in template file|Effect
+|NONE||Does not affect the condition.
+|NOT|not|Negate the result of the condition. 
+|=======================
+
+The default value of the condition modifier is 'NONE'. 
+
+NOTE: New line after the close command '$fi' is discarded. 

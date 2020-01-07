@@ -1,11 +1,7 @@
-//////////////////////////////////////////////////////////////////////////////////////////////////////
-//                                                                                                  //
-// This file is part of the Seadex genesis library (http://genesis.seadex.de).                      //
-// Copyright( C ) 2017 Seadex GmbH                                                                  //
-// Licensing information is available in the folder "license" which is part of this distribution.   //
-// The same information is available on the www @ http://genesis.seadex.de/License.html.            //
-//                                                                                                  //
-//////////////////////////////////////////////////////////////////////////////////////////////////////
+// Copyright (c) 2017-, Seadex GmbH
+// The Seadex GmbH licenses this file to you under the MIT license.
+// The license file can be found in the license directory of this project.
+// This file is part of the Seadex genesis library (http://genesis.seadex.de).
 
 #include "variable_step.hpp"
 
@@ -28,13 +24,13 @@ variable_step::variable_step( const std::string& _variable_name ) :
 }
 
 
-variable_step::~variable_step() SX_NOEXCEPT
+variable_step::~variable_step() noexcept
 {
 	// Nothing to do...
 }
 
 
-void variable_step::create( recipe_callback& _recipe_callback, std::stringstream& _ostream )
+void variable_step::create( recipe_callback& _recipe_callback, std::stringstream& _ostream, [[maybe_unused]] const int _indent )
 {
 	_ostream << _recipe_callback.get_variable_content( variable_name_ );
 }

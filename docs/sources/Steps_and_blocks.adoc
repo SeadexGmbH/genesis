@@ -1,0 +1,15 @@
+==== Steps and blocks
+
+The genesis library generates code by using internally defined elements. 
+
+Basic elements are called steps. There are: 
+
+* <<Text step>> - containing a text sequence from the template file 
+* <<Variable step>> - a variable that will be replaced by its value 
+
+The 'blocks' are complex elements that can contain other elements (steps and other blocks): 
+
+* <<Condition block>> - represents an 'if' 
+* <<Loop block>> - represents a loop (more precisely: a 'for') 
+* <<Switch block>> - represents a 'switch' statement. 
+* <<Template block>> - represents a recipe block created from a template file 
