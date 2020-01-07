@@ -8,29 +8,48 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef BASE_0C97CC9D_8A5B_4696_9964_49819CD9233A
-#define BASE_0C97CC9D_8A5B_4696_9964_49819CD9233A
+#ifndef URI_72CBB6C3_57D9_443A_99F0_9EDE9A2BC07D
+#define URI_72CBB6C3_57D9_443A_99F0_9EDE9A2BC07D
 
 
-//!\def	SX_ASSERT( _condition, _message )
-//!\brief Assert a given condition. Adds the message to the assert for better diagnostics when the assert is triggered.
-#define SX_ASSERT( _condition, _message ) \
-	do \
-	{ \
-			assert( ( _condition ) && _message ); \
-	} \
-	while( 0 )
+#include <deque>
 
-//!\def	SX_ASSERTED( _x )
-//!\brief Suppress warnings for variables that are only used within asserts.
-#define SX_ASSERTED( _x ) static_cast< void >( _x );
-
-//!\def	SX_UNUSED_PARAMETER( _x )
-//!\brief Suppress warnings for unreferenced parameters.
-#define SX_UNUSED_PARAMETER( _x ) static_cast<void>( _x )
+#include "essentials/compatibility/compatibility.hpp"
 
 
-#include <cassert>
+namespace sxe
+{
+
+
+const char URI_DELIMITER = '/';
+
+
+class uri SX_FINAL
+{
+public:
+	explicit uri( const std::string& _uri = "" );
+	~uri() SX_NOEXCEPT;
+	bool is_empty() const;
+	const std::string to_string() const;
+	const std::string& get_front() const;
+	const std::string& get_back();
+	void push_front( const std::string& _segment );
+	void push_back( const std::string& _segment );
+	void pop_front();
+	void pop_back();
+	size_t size() const;
+
+
+private:
+	const std::string build_uri() const;
+	void split_string_to_uri_segments( const std::string& _uri );
+
+
+	std::deque< std::string > uri_;
+};
+
+
+}
 
 
 #endif

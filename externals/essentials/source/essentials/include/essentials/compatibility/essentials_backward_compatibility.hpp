@@ -8,48 +8,24 @@
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-#ifndef URI_72CBB6C3_57D9_443A_99F0_9EDE9A2BC07D
-#define URI_72CBB6C3_57D9_443A_99F0_9EDE9A2BC07D
+#ifndef ESSENTIALS_BACKWARD_COMPATIBILITY_EBFE3698_30C0_456A_A146_1F081011CB49
+#define ESSENTIALS_BACKWARD_COMPATIBILITY_EBFE3698_30C0_456A_A146_1F081011CB49
 
 
-#include <deque>
-
-#include "compatibility/compatibility.hpp"
-
-
-namespace sxe
-{
+#ifdef Y_NO_STD_MAKE_UNIQUE
+#define SX_NO_STD_MAKE_UNIQUE
+#endif
 
 
-const char URI_DELIMITER = '/';
+#ifdef Y_CPP03_BOOST
+#define SX_CPP03_BOOST
+#endif
 
 
-class uri SX_FINAL
-{
-public:
-	explicit uri( const std::string& _uri = "" );
-	~uri() SX_NOEXCEPT;
-	bool is_empty() const;
-	const std::string to_string() const;
-	const std::string& get_front() const;
-	const std::string& get_back();
-	void push_front( const std::string& _segment );
-	void push_back( const std::string& _segment );
-	void pop_front();
-	void pop_back();
-	size_t size() const;
-
-
-private:
-	const std::string build_uri() const;
-	void split_string_to_uri_segments( const std::string& _uri );
-
-
-	std::deque< std::string > uri_;
-};
-
-
-}
+#define Y_UNIQUE_PTR SX_UNIQUE_PTR
+#define Y_MAKE_UNIQUE SX_MAKE_UNIQUE
+#define Y_MAKE_SHARED SX_MAKE_SHARED
+#define Y_UNUSED_PARAMETER SX_UNUSED_PARAMETER
 
 
 #endif

@@ -12,7 +12,7 @@
 #define NON_COPYABLE_D2C5BF6C_4B43_42AF_9E42_1AAE2B5C49C8
 
 
-#include "compatibility/compatibility.hpp"
+#include "essentials/compatibility/compatibility.hpp"
 
 
 namespace sxe
