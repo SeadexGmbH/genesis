@@ -1,0 +1,2 @@
+add_subdirectory(genesis)
+add_subdirectory(examples)
