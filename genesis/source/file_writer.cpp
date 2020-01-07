@@ -25,7 +25,11 @@ namespace genesis
 
 void write( const std::string& _file_path, const std::ostream& _output_stream )
 {
+#ifdef SX_CPP03_BOOST
+	std::ofstream target_file( _file_path.c_str(), std::ios_base::out );
+#else
 	std::ofstream target_file( _file_path, std::ios_base::out );
+#endif
 
 	if( target_file.is_open() )
 	{

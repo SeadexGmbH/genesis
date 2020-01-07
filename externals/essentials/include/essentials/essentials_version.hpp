@@ -12,7 +12,7 @@
 #define VERSION_E55DC329_9A27_4598_928C_1CD8A4AA389E
 
 
-#include "essentials/compatibility/compatibility.hpp"
+#include "compatibility/compatibility.hpp"
 
 
 namespace sxe

@@ -36,7 +36,7 @@ class template_block
 	: public recipe_block
 {
 public:
-	//!\brief Constructor of the class. It gets the template file name and the path to the template directory.
+	//!\brief Constructor. Get the template file name and the path to the template directory.
 	//!\param _template_name Name of the template file.
 	//!\param _template_path Path to templates directory
 	explicit template_block( const std::string& _template_name, const std::string& _template_path );
@@ -45,8 +45,8 @@ public:
 
 	//!\brief Create the output for a step.
 	//!\param _recipe_callback Generator callback
-	//!\param	_ostream Stream to which the generator writes.
-	void create( recipe_callback& _recipe_callback, std::stringstream& _ostream );
+	//!\param _ostream Stream to which the generator writes.
+	virtual void create( recipe_callback& _recipe_callback, std::stringstream& _ostream ) SX_OVERRIDE;
 
 
 private:

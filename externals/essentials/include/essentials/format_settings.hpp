@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "essentials/compatibility/compatibility.hpp"
+#include "compatibility/compatibility.hpp"
 
 
 namespace sxe
@@ -24,7 +24,7 @@ namespace sxe
 //!\brief Structure containing information for formatting the output of sxprintf.
 struct format_settings SX_FINAL
 {
-	//!\brief Constructor of the structure.
+	//!\brief Constructor.
 	format_settings();
 
 

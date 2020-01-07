@@ -50,7 +50,7 @@ public:
 
 	//!\brief Create the output for a step.
 	//!\param _recipe_callback Generator callback
-	//!\param	_ostream Stream to which the generator writes.
+	//!\param _ostream Stream to which the generator writes.
 	virtual void create( recipe_callback& _recipe_callback, std::stringstream& _ostream ) = 0;
 };
 

@@ -41,7 +41,7 @@ void condition_block::create( recipe_callback& _recipe_callback, std::stringstre
 {
 	_recipe_callback.condition_begin( condition_name_ );
 	bool result = _recipe_callback.check_condition( condition_name_ );
-	check_modifier( result );
+	apply_modifier( result );
 	if( result )
 	{
 		create_children( _recipe_callback, _ostream );
@@ -50,9 +50,8 @@ void condition_block::create( recipe_callback& _recipe_callback, std::stringstre
 }
 
 
-void condition_block::check_modifier( bool& _result ) const
+void condition_block::apply_modifier( bool& _result ) const
 {
-	// DONE move to condition
 	switch( modifier_ )
 	{
 	case sx::genesis::condition_modifier::NOT:

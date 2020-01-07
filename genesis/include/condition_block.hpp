@@ -31,7 +31,7 @@ class condition_block SX_FINAL
 public:
 	//!\brief constructor
 	//!\param _condition_name name of the condition block.
-	//!\param _modifier condition modifier. default value is none.			
+	//!\param _modifier condition modifier. default value is none.
 	//!\sa condition_modifier
 	explicit condition_block( const std::string& _condition_name, const condition_modifier& _modifier = condition_modifier::NONE );
 	virtual ~condition_block() SX_NOEXCEPT SX_OVERRIDE;
@@ -39,12 +39,12 @@ public:
 
 	//!\brief create the output for a step.
 	//!\param _recipe_callback generator callback
-	//!\param	_ostream stream to which the generator writes.
+	//!\param _ostream stream to which the generator writes.
 	virtual void create( recipe_callback& _recipe_callback, std::stringstream& _ostream ) SX_OVERRIDE;
 
 
 private:
-	void check_modifier( bool& _result ) const;	
+	void apply_modifier( bool& _result ) const;
 
 	const std::string condition_name_;
 	const condition_modifier modifier_;
